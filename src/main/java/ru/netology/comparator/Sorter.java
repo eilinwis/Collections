@@ -1,3 +1,4 @@
+
 package ru.netology.comparator;
 
 import ru.netology.domain.Issue;
