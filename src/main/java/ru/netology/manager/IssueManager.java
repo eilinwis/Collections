@@ -1,11 +1,13 @@
 package ru.netology.manager;
 
 import ru.netology.domain.Issue;
+import ru.netology.domain.Label;
 import ru.netology.repository.IssueRepository;
 
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.function.Predicate;
 
 public class IssueManager {
 
@@ -53,15 +55,17 @@ public class IssueManager {
         return filtredByAuthor;
     }
 
-    public List<Issue> showFilterByLabel(String label, Comparator<Issue> comparator) {
+    public List<Issue> showFilterByLabel(Predicate<String> name, Comparator<Issue> comparator) {
         List<Issue> filtredByLabel = new ArrayList<>();
         for (Issue issue : issues) {
-            if (issue.getLabel().equals(label)) {
-                filtredByLabel.add(issue);
+            for (Label label : issue.getLabel()) {
+                if (name.test(label.getLabel())) {
+                    filtredByLabel.add(issue);
+                }
             }
-        }
-        filtredByLabel.sort(comparator);
-        return filtredByLabel;
+            filtredByLabel.sort(comparator);
+
+        } return filtredByLabel;
     }
 
     public List<Issue> showFilterByAssignee(String assignee, Comparator<Issue> comparator) {
